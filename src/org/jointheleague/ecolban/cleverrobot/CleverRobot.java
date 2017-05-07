@@ -12,7 +12,7 @@ import org.jointheleague.ecolban.rpirobot.SimpleIRobot;
 
 public class CleverRobot extends IRobotAdapter {
 	Sonar sonar = new Sonar();
-	
+
 	public CleverRobot(IRobotInterface iRobot) {
 		super(iRobot);
 	}
@@ -22,21 +22,47 @@ public class CleverRobot extends IRobotAdapter {
 		IRobotInterface base = new SimpleIRobot();
 		CleverRobot rob = new CleverRobot(base);
 		rob.setup();
-		while(rob.loop()){}
+		while (rob.loop()) {
+		}
 		rob.shutDown();
-		
+
 	}
 
 	private void setup() throws Exception {
-		driveDirect(100,100);
+		driveDirect(100, 100);
 	}
-	
-	private boolean loop() throws Exception{
-		System.out.println("LEFT SONAR: " + sonar.readSonar("left"));
-		Thread.sleep(1000);
-		System.out.println("RIGHT SONAR: " + sonar.readSonar("right"));
-		System.out.println("CENTER SONAR: " + sonar.readSonar("center"));
-		
+
+	private boolean loop() throws Exception {
+		// driveDirect(400, 400);
+		// Thread.sleep(3000);
+		// driveDirect(400, -400);
+		// Thread.sleep(500);
+		// driveDirect(400, 400);
+		// Thread.sleep(3000);
+		// driveDirect(400, -400);
+		// Thread.sleep(500);
+		// driveDirect(400, 400);
+		// Thread.sleep(3000);
+		// driveDirect(400, -400);
+		// Thread.sleep(500);
+		// driveDirect(400, 400);
+		// Thread.sleep(3000);
+		readSensors(SENSORS_GROUP_ID100);
+		if (isBumpLeft()) {
+			driveDirect(-400, 400);
+			Thread.sleep(1000);
+			driveDirect(-400, -400);
+		} else if (isBumpRight()) {
+			driveDirect(400, -400);
+			Thread.sleep(1000);
+			driveDirect(-400, -400);
+		} else {
+			driveDirect(400, 400);
+		}
+		if (isCleanButtonDown()) {
+			return false;
+		}
+
 		return true;
 	}
 
